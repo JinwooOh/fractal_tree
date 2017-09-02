@@ -1,32 +1,28 @@
-var angle = PI/4;
-
+var tree = [];
 function setup(){
 	createCanvas(400, 400);
-	slider = createSlider(0, TWO_PI, PI/4, 0.01);
+	var a = createVector(width/2, height);
+	var b = createVector(width/2, height-100);
+	var root = new Branch(a, b);
+	tree[0] = root;
+
+}
+
+function mousePressed(){
+	for(var i = tree.length-1; i >= 0; i--){
+		if(!tree[i].finished){
+			tree.push(tree[i].branchA());
+			tree.push(tree[i].branchB());
+			tree[i].finished = true;
+		}
+		
+	}
 }
 
 function draw(){
-	
 	background(51);
-	angle = slider.value();
-	var len = 100;
-	stroke(255);
-	translate(200, height);//change the location of a branch 
-	branch(100);
-}
-
-function branch(len){
-	line(0, 0, 0, -len);
-	translate(0, -len);
-	
-	if(len > 4){
-		push();
-		rotate(angle);
-		branch(len * 0.6);
-		pop();
-		push();
-		rotate(-angle);
-		branch(len * 0.6);
-		pop();
+	for(var i = 0; i < tree.length; i++){
+		tree[i].show();
 	}
+	
 }
