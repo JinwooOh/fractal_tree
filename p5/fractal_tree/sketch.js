@@ -1,4 +1,7 @@
 var tree = [];
+var counter = 0;
+var leaves = [];
+
 function setup(){
 	createCanvas(400, 400);
 	var a = createVector(width/2, height);
@@ -13,9 +16,17 @@ function mousePressed(){
 		if(!tree[i].finished){
 			tree.push(tree[i].branchA());
 			tree.push(tree[i].branchB());
-			tree[i].finished = true;
 		}
-		
+		tree[i].finished = true;
+	}
+	counter++;
+	if(counter == 5){
+		for(var i = 0; i < tree.length; i++){
+			if(!tree[i].finished){
+				var leaf = tree[i].end.copy();
+				leaves.push(leaf);
+			}
+		}
 	}
 }
 
@@ -23,6 +34,12 @@ function draw(){
 	background(51);
 	for(var i = 0; i < tree.length; i++){
 		tree[i].show();
+	}
+	for(var i = 0; i < leaves.length; i++){
+		fill(255,0,100, 100);
+		noStroke();
+		ellipse(leaves[i].x, leaves[i].y, 8, 8);
+		leaves[i].y += random(0, 2);
 	}
 	
 }
